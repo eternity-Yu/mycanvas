@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="sketch">
+<head>
+	<meta charset="UTF-8">
+	<title>画板</title>
+<link rel="stylesheet" href="./css/index.css">
+<script src="./js/angular.js"></script>
+<script src="./js/index.js"></script>
+</head>
+<body ng-controller="sketchController">
+	<div id="controls">
+		<div class="menu">
+			<div class="menu-inner" ng-click="newSketch()">新建</div>
+			<div class="menu-inner"><a href="" ng-click="save($event)">保存</a></div>
+			<div class="menu-inner">回退</div>
+		</div>
+
+		<ul class="menu-ul">
+			<li ng-repeat="(key, value) in tools" ng-click="settool(value)" ng-class="{active:value==tool}">
+				<span>{{key}}</span>
+			</li>
+		</ul>
+		<hr>
+		<div ng-click="setStyle('fill')"  ng-class="{active:csState.style=='fill'}" class="yanse"><span>填充</span>
+		<input type="color" ng-model="csState.fillStyle"></div>
+		<div ng-class="{active:csState.style=='stroke'}" ng-click="setStyle('stroke')" class="yanse"><span>画线</span>
+		<input type="color" ng-model="csState.strokeStyle" ></div>
+		<hr>
+		<div class="kuandu">
+			<span>线宽度：</span>
+			<input type="range" min="1" max="30" step="1" ng-model="csState.lineWidth">
+		</div>
+	</div>
+	<div id="drawregion">
+		<div class="top">
+			<div class="tianchong">
+				<span ng-click="setStyle('fill')" ng-class="{active:csState.style=='fill'}">填充</span>
+				<input type="color" ng-model="csState.fillStyle">
+			</div>
+			<div class="huaxian">
+				<span ng-click="setStyle('stroke')" ng-class="{active:csState.style=='stroke'}">画线</span>
+				<input type="color" ng-model="csState.strokeStyle">
+			</div>
+			<div class="xuanxiang">
+				<span>选项</span>
+				<div class="xuanxiang-inner">
+					<div><span>宽</span><input type="range" min="200" max="1000" step="10" ng-model="canvasWH.width"></div>
+					<div><span>高</span><input type="range" min="100" max="500" step="10" ng-model="canvasWH.height"></div>
+				</div>
+			</div>
+		</div>
+		<canvas id="canvas" width="{{canvasWH.width}}" height="{{canvasWH.height}}"></canvas>
+	</div>
+</body>
+<script>
+	var xuanxiangInner=document.querySelector('.xuanxiang-inner');
+	var xuanxiang=document.querySelector('.xuanxiang');
+	xuanxiang.onmouseover=function(){
+		xuanxiangInner.style.display="block";
+	}
+	xuanxiang.onmouseout=function(){
+		xuanxiangInner.style.display="none";
+	}
+</script>
+</html>
